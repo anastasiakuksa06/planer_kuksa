@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>weekfocus - недельный планировщик</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="app-shell" id="weekfocus-app">
+      <header class="dashboard-header" id="dashboard-header">
+        <div class="dashboard-line dashboard-line--controls" id="dashboard-line-controls">
+          <div class="today-informer dashboard-date-title" id="today-informer">
+            <span class="today-informer__weekday" id="today-weekday">Суббота</span>
+            <time class="today-informer__date" id="today-date" datetime="">--.--.----</time>
+          </div>
+          <div class="dashboard-week-progress week-progress" id="week-progress" aria-label="Недельный прогресс">
+            <span class="dashboard-week-progress__label" id="week-progress-label">Неделя выполнена на 0%</span>
+            <div class="week-progress__track" aria-hidden="true">
+              <div class="week-progress__bar" id="week-progress-bar"></div>
+            </div>
+          </div>
+          <div class="dashboard-controls" id="dashboard-controls">
+            <div class="week-navigation" id="week-navigation" aria-label="Навигация по неделям">
+              <button class="week-nav-button week-nav-button--prev" id="previous-week-button" type="button" aria-label="Предыдущая неделя">&lt;</button>
+              <button class="week-nav-button week-nav-button--next" id="next-week-button" type="button" aria-label="Следующая неделя">&gt;</button>
+            </div>
+            <button class="settings-button" id="settings-button" type="button" aria-label="Настройки">⚙️</button>
+            <div class="settings-popover" id="settings-popover" hidden>
+              <div class="backup-controls" id="backup-controls" aria-label="Резервное копирование">
+                <button class="backup-button" id="export-backup-button" type="button">Экспорт</button>
+                <button class="backup-button" id="import-backup-button" type="button">Импорт</button>
+                <input class="backup-file-input" id="backup-file-input" type="file" accept="application/json,.json" hidden>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-line dashboard-line--analytics" id="dashboard-line-analytics">
+          <div class="dashboard-analytics" id="dashboard-analytics">
+            <article class="dashboard-widget dashboard-widget--work dashboard-widget--donut" id="dashboard-widget-work" data-category="work">
+              <svg class="dashboard-widget__icon category-icon category-icon--work" id="icon-work" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-labelledby="icon-work-title" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <title id="icon-work-title">Работа</title>
+                <rect x="3" y="7" width="18" height="13" rx="2"></rect>
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <path d="M3 12h18"></path>
+                <path d="M10 12v2h4v-2"></path>
+              </svg>
+              <div class="dashboard-widget__donut" aria-hidden="true">
+                <svg class="dashboard-widget__donut-svg" viewBox="0 0 44 44">
+                  <circle class="dashboard-widget__donut-track" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="0"></circle>
+                  <circle class="dashboard-widget__donut-value" id="dashboard-bar-work" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="113"></circle>
+                </svg>
+                <span class="dashboard-widget__percent" id="dashboard-percent-work">0%</span>
+              </div>
+            </article>
+            <article class="dashboard-widget dashboard-widget--personal dashboard-widget--donut" id="dashboard-widget-personal" data-category="personal">
+              <svg class="dashboard-widget__icon category-icon category-icon--personal" id="icon-personal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-labelledby="icon-personal-title" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <title id="icon-personal-title">Личное</title>
+                <circle cx="12" cy="7" r="4"></circle>
+                <path d="M5 21a7 7 0 0 1 14 0"></path>
+              </svg>
+              <div class="dashboard-widget__donut" aria-hidden="true">
+                <svg class="dashboard-widget__donut-svg" viewBox="0 0 44 44">
+                  <circle class="dashboard-widget__donut-track" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="0"></circle>
+                  <circle class="dashboard-widget__donut-value" id="dashboard-bar-personal" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="113"></circle>
+                </svg>
+                <span class="dashboard-widget__percent" id="dashboard-percent-personal">0%</span>
+              </div>
+            </article>
+            <article class="dashboard-widget dashboard-widget--home dashboard-widget--donut" id="dashboard-widget-home" data-category="home">
+              <svg class="dashboard-widget__icon category-icon category-icon--home" id="icon-home" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-labelledby="icon-home-title" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <title id="icon-home-title">Дом</title>
+                <path d="M3 11.5 12 4l9 7.5"></path>
+                <path d="M5 10.5V20h14v-9.5"></path>
+                <path d="M10 20v-6h4v6"></path>
+              </svg>
+              <div class="dashboard-widget__donut" aria-hidden="true">
+                <svg class="dashboard-widget__donut-svg" viewBox="0 0 44 44">
+                  <circle class="dashboard-widget__donut-track" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="0"></circle>
+                  <circle class="dashboard-widget__donut-value" id="dashboard-bar-home" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="113"></circle>
+                </svg>
+                <span class="dashboard-widget__percent" id="dashboard-percent-home">0%</span>
+              </div>
+            </article>
+            <article class="dashboard-widget dashboard-widget--study dashboard-widget--donut" id="dashboard-widget-study" data-category="study">
+              <svg class="dashboard-widget__icon category-icon category-icon--study" id="icon-study" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-labelledby="icon-study-title" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <title id="icon-study-title">Учеба</title>
+                <path d="M3 8.5 12 4l9 4.5-9 4.5-9-4.5Z"></path>
+                <path d="M7 10.5V15c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5"></path>
+                <path d="M21 8.5V15"></path>
+              </svg>
+              <div class="dashboard-widget__donut" aria-hidden="true">
+                <svg class="dashboard-widget__donut-svg" viewBox="0 0 44 44">
+                  <circle class="dashboard-widget__donut-track" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="0"></circle>
+                  <circle class="dashboard-widget__donut-value" id="dashboard-bar-study" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="113"></circle>
+                </svg>
+                <span class="dashboard-widget__percent" id="dashboard-percent-study">0%</span>
+              </div>
+            </article>
+            <article class="dashboard-widget dashboard-widget--meetings dashboard-widget--donut" id="dashboard-widget-meetings" data-category="meetings">
+              <svg class="dashboard-widget__icon category-icon category-icon--meetings" id="icon-meetings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-labelledby="icon-meetings-title" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <title id="icon-meetings-title">Встречи</title>
+                <rect x="3" y="6" width="13" height="12" rx="2"></rect>
+                <path d="m16 10 5-3v10l-5-3"></path>
+              </svg>
+              <div class="dashboard-widget__donut" aria-hidden="true">
+                <svg class="dashboard-widget__donut-svg" viewBox="0 0 44 44">
+                  <circle class="dashboard-widget__donut-track" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="0"></circle>
+                  <circle class="dashboard-widget__donut-value" id="dashboard-bar-meetings" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="113"></circle>
+                </svg>
+                <span class="dashboard-widget__percent" id="dashboard-percent-meetings">0%</span>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="dashboard-line dashboard-line--timeline" id="dashboard-line-timeline">
+          <nav class="week-timeline" id="week-timeline" aria-label="Таймлайн недели">
+            <article class="day-card day-card--monday" id="day-card-monday" data-weekday="monday">
+              <time class="day-card__date" id="day-date-monday">--.--</time>
+              <h2 class="day-card__weekday" id="day-weekday-monday">Понедельник</h2>
+              <p class="day-card__analytics" id="day-analytics-monday">0/0</p>
+            </article>
+            <article class="day-card day-card--tuesday" id="day-card-tuesday" data-weekday="tuesday">
+              <time class="day-card__date" id="day-date-tuesday">--.--</time>
+              <h2 class="day-card__weekday" id="day-weekday-tuesday">Вторник</h2>
+              <p class="day-card__analytics" id="day-analytics-tuesday">0/0</p>
+            </article>
+            <article class="day-card day-card--wednesday" id="day-card-wednesday" data-weekday="wednesday">
+              <time class="day-card__date" id="day-date-wednesday">--.--</time>
+              <h2 class="day-card__weekday" id="day-weekday-wednesday">Среда</h2>
+              <p class="day-card__analytics" id="day-analytics-wednesday">0/0</p>
+            </article>
+            <article class="day-card day-card--thursday" id="day-card-thursday" data-weekday="thursday">
+              <time class="day-card__date" id="day-date-thursday">--.--</time>
+              <h2 class="day-card__weekday" id="day-weekday-thursday">Четверг</h2>
+              <p class="day-card__analytics" id="day-analytics-thursday">0/0</p>
+            </article>
+            <article class="day-card day-card--friday" id="day-card-friday" data-weekday="friday">
+              <time class="day-card__date" id="day-date-friday">--.--</time>
+              <h2 class="day-card__weekday" id="day-weekday-friday">Пятница</h2>
+              <p class="day-card__analytics" id="day-analytics-friday">0/0</p>
+            </article>
+            <article class="day-card day-card--saturday is-today" id="day-card-saturday" data-weekday="saturday" aria-current="date">
+              <time class="day-card__date" id="day-date-saturday">--.--</time>
+              <h2 class="day-card__weekday" id="day-weekday-saturday">Суббота</h2>
+              <p class="day-card__analytics" id="day-analytics-saturday">0/0</p>
+            </article>
+            <article class="day-card day-card--sunday" id="day-card-sunday" data-weekday="sunday">
+              <time class="day-card__date" id="day-date-sunday">--.--</time>
+              <h2 class="day-card__weekday" id="day-weekday-sunday">Воскресенье</h2>
+              <p class="day-card__analytics" id="day-analytics-sunday">0/0</p>
+            </article>
+          </nav>
+        </div>
+      </header>
+
+      <main class="workspace" id="workspace">
+        <section class="day-detail" id="day-detail" aria-labelledby="day-detail-title">
+          <div class="day-detail__header">
+            <h1 class="section-title" id="day-detail-title">Задачи выбранного дня</h1>
+            <button class="return-today-button" id="return-today-button" type="button" hidden>Вернуться к сегодня</button>
+          </div>
+
+          <div class="category-icons" id="category-icons" aria-label="Фильтр категорий задач">
+            <button class="category-filter-reset category-filter-tab is-active-filter" id="category-filter-reset" type="button" data-category-filter="all" aria-label="Все категории">
+              <svg class="category-filter-tab__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <circle cx="7" cy="7" r="2.5"></circle>
+                <circle cx="17" cy="7" r="2.5"></circle>
+                <circle cx="7" cy="17" r="2.5"></circle>
+                <circle cx="17" cy="17" r="2.5"></circle>
+              </svg>
+              <span class="category-filter-tab__label">Все</span>
+              <span class="category-filter-tab__percent" id="filter-percent-all">0%</span>
+            </button>
+            <button class="category-filter-button category-filter-tab category-icon category-icon--work" id="category-filter-work" type="button" data-category-filter="work" aria-label="Работа">
+              <svg class="category-filter-tab__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="7" width="18" height="13" rx="2"></rect>
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <path d="M3 12h18"></path>
+              </svg>
+              <span class="category-filter-tab__label">Работа</span>
+              <span class="category-filter-tab__percent" id="filter-percent-work">0%</span>
+            </button>
+            <button class="category-filter-button category-filter-tab category-icon category-icon--personal" id="category-filter-personal" type="button" data-category-filter="personal" aria-label="Личное">
+              <svg class="category-filter-tab__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="7" r="4"></circle>
+                <path d="M5 21a7 7 0 0 1 14 0"></path>
+              </svg>
+              <span class="category-filter-tab__label">Личное</span>
+              <span class="category-filter-tab__percent" id="filter-percent-personal">0%</span>
+            </button>
+            <button class="category-filter-button category-filter-tab category-icon category-icon--home" id="category-filter-home" type="button" data-category-filter="home" aria-label="Дом">
+              <svg class="category-filter-tab__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11.5 12 4l9 7.5"></path>
+                <path d="M5 10.5V20h14v-9.5"></path>
+                <path d="M10 20v-6h4v6"></path>
+              </svg>
+              <span class="category-filter-tab__label">Дом</span>
+              <span class="category-filter-tab__percent" id="filter-percent-home">0%</span>
+            </button>
+            <button class="category-filter-button category-filter-tab category-icon category-icon--study" id="category-filter-study" type="button" data-category-filter="study" aria-label="Учеба">
+              <svg class="category-filter-tab__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 8.5 12 4l9 4.5-9 4.5-9-4.5Z"></path>
+                <path d="M7 10.5V15c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5"></path>
+              </svg>
+              <span class="category-filter-tab__label">Учеба</span>
+              <span class="category-filter-tab__percent" id="filter-percent-study">0%</span>
+            </button>
+            <button class="category-filter-button category-filter-tab category-icon category-icon--meetings" id="category-filter-meetings" type="button" data-category-filter="meetings" aria-label="Встречи">
+              <svg class="category-filter-tab__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="6" width="13" height="12" rx="2"></rect>
+                <path d="m16 10 5-3v10l-5-3"></path>
+              </svg>
+              <span class="category-filter-tab__label">Встречи</span>
+              <span class="category-filter-tab__percent" id="filter-percent-meetings">0%</span>
+            </button>
+          </div>
+
+          <ul class="task-list" id="selected-day-tasks" aria-label="Список задач выбранного дня">
+            <li class="inline-new-task-placeholder" id="inline-new-task-placeholder">Новая задача</li>
+          </ul>
+        </section>
+
+        <aside class="side-lists" id="side-lists" aria-label="Сопутствующие списки">
+          <section class="side-section side-section--overdue" id="overdue-section" aria-labelledby="overdue-title">
+            <h2 class="section-title" id="overdue-title">Просрочено</h2>
+            <ul class="side-list" id="overdue-task-list"></ul>
+          </section>
+
+          <section class="side-section side-section--weekly-important" id="weekly-important-section" aria-labelledby="weekly-important-title">
+            <h2 class="section-title" id="weekly-important-title">Важное на неделе</h2>
+            <ul class="side-list" id="weekly-important-task-list"></ul>
+          </section>
+        </aside>
+      </main>
+
+      <div class="regular-popover" id="regular-popover" hidden>
+        <div class="regular-popover__days" id="regular-popover-days" aria-label="Дни повторения">
+          <button class="regular-popover__day" id="regular-popover-day-monday" type="button" data-weekday="monday">Пн</button>
+          <button class="regular-popover__day" id="regular-popover-day-tuesday" type="button" data-weekday="tuesday">Вт</button>
+          <button class="regular-popover__day" id="regular-popover-day-wednesday" type="button" data-weekday="wednesday">Ср</button>
+          <button class="regular-popover__day" id="regular-popover-day-thursday" type="button" data-weekday="thursday">Чт</button>
+          <button class="regular-popover__day" id="regular-popover-day-friday" type="button" data-weekday="friday">Пт</button>
+          <button class="regular-popover__day" id="regular-popover-day-saturday" type="button" data-weekday="saturday">Сб</button>
+          <button class="regular-popover__day" id="regular-popover-day-sunday" type="button" data-weekday="sunday">Вс</button>
+        </div>
+      </div>
+    </div>
+
+    <dialog class="delete-dialog" id="delete-regular-dialog" aria-labelledby="delete-regular-title">
+      <form class="delete-dialog__panel" method="dialog">
+        <h2 class="delete-dialog__title" id="delete-regular-title">Удалить регулярную задачу</h2>
+        <p class="delete-dialog__text">Удалить только текущую задачу, всю серию или вернуться к карточке?</p>
+        <div class="delete-dialog__actions">
+          <button class="delete-dialog__button" id="delete-current-task-button" type="button" data-delete-scope="current">Удалить текущую</button>
+          <button class="delete-dialog__button delete-dialog__button--danger" id="delete-series-task-button" type="button" data-delete-scope="series">Удалить серию</button>
+          <button class="delete-dialog__button" id="delete-cancel-button" type="button" data-delete-scope="cancel">Вернуться</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
